@@ -1,4 +1,4 @@
-## Sway Nasa Astronomy Picture of the Day background
+# Sway Nasa Astronomy Picture of the Day background
 
 This script sets your Sway background to Nasa's [Astronomy Picture of the Day][0].
 
