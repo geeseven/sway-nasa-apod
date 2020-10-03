@@ -4,7 +4,7 @@ This script sets your Sway background to Nasa's [Astronomy Picture of the Day][0
 
 usage:
 
-```sh
+```console
 /path/to/nasa-apod.sh /path/to/writable/image/directory
 
 ```
