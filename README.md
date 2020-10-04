@@ -11,7 +11,7 @@ usage:
 
 Depending on your needs, you will want to configure the script to run at startup or set up a cronjob or systemd timer.  Personally, I set a systemtd timer for 06:00 UTC and have the following in my Sway configuration file:
 
-```
+```dosini
 output * background /path/to/writable/image/directory/nasa-apod.jpg center #323232
 ```
 
