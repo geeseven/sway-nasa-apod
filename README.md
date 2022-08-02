@@ -2,7 +2,7 @@
 
 This script sets your Sway background to Nasa's [Astronomy Picture of the Day][0].
 
-usage:
+## Usage
 
 ```console
 $ /path/to/sway-nasa-apod/nasa-apod.sh --help
@@ -18,8 +18,13 @@ optional arguments:
 Depending on your needs, you will want to configure the script to run at startup or set up a cronjob or systemd timer.  Personally, I set a systemtd timer for 06:00 UTC and have the following in my Sway configuration file:
 
 ```dosini
-output * background /path/to/sway-nasa-apod/nasa-apod.jpg center #323232
+output * background "${XDG_CACHE_HOME:-$HOME/.cache}/sway-nasa-apod/latest.jpg" center #323232
 ```
 
+## systemd integration
+
+1. Create a `nasa-apod.service` from the example in this directory. 
+2. Place the create `nasa-apod.service` and `nasa-apod.timer` at `.config/systemd/user/`
+3. Enable with `systemctl --user enable nasa-apod.timer`
 
 [0]: https://apod.nasa.gov/apod/
