@@ -12,7 +12,9 @@ random=$(echo "random" | \
 )
 img_regex='<IMG SRC="(.*)"'
 script_path=$(dirname "$(readlink -f "$0")")
-local_image_path="$script_path/nasa-apod.jpg"
+cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}"
+local_image_path="$cache_dir/sway-nasa-apod/nasa-apod-$(date -I).jpg"
+latest_image_path="$cache_dir/sway-nasa-apod/latest.jpg"
 
 get_img() {
 	remote_image_path=$(curl "$1" 2>/dev/null | \
@@ -20,6 +22,7 @@ get_img() {
 	)
 	image_url="https://apod.nasa.gov/apod/$remote_image_path"
 	curl --silent --output "$local_image_path" "$image_url"
+  cp "$local_image_path" "$latest_image_path"
 }
 
 
@@ -30,7 +33,7 @@ if [[ "$1" = "-h" ]] || [[ "$1" = "--help" ]]; then
 	echo ""
 	echo "optional arguments:"
 	echo "  -h, --help            show this help message and exit"
-	echo "  -r, --$random          pick random day from the archive, url saved to $script_path/last_random_url"
+	echo "  -r, --$random          pick random day from the archive, url saved to $cache_dir/last_random_url"
 	exit 0
 elif [[ "$1" = "-r" ]] || [[ "$1" = "$random" ]] ; then
 	archive_list_url="https://apod.nasa.gov/apod/archivepixFull.html"
@@ -45,10 +48,15 @@ elif [[ "$1" = "-r" ]] || [[ "$1" = "$random" ]] ; then
 	url=https://apod.nasa.gov/apod/"$url"
 	get_img "$url"
 
-	echo "$url" > "$script_path/last_random_url"
+	echo "$url" > "$cache_dir/last_random_url"
 else
 	url="https://apod.nasa.gov/apod/astropix.html"
 	get_img "$url"
 fi
 
-swaymsg "output * background $local_image_path center #323232"
+echo "updating background..."
+
+swaymsg "output * background $latest_image_path fill"
+
+echo "done"
+
